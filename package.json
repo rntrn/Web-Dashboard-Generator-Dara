@@ -1,0 +1,32 @@
+{
+  "name": "dara-free",
+  "version": "1.0.0",
+  "description": "DARA Free — Web Dashboard Generator. Buat dashboard langsung dari database MySQL.",
+  "author": "rntrn",
+  "creator": "rntrn",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rntrn/Web-Dashboard-Generator-Dara.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "setup": "node installer/index.js",
+    "setup:auto": "node installer/index.js --yes",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "db:migrate": "npm --prefix server run db:migrate",
+    "db:seed": "npm --prefix server run db:seed",
+    "db:reset": "npm --prefix server run db:reset",
+    "db:status": "npm --prefix server run db:status",
+    "create-admin": "npm --prefix server run create-admin",
+    "backup": "npm --prefix server run backup",
+    "uninstall": "node scripts/uninstall.mjs"
+  }
+}

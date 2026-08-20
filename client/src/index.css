@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variabel tema global (v0.36.0, diperhalus v0.40.0) — di-override
+   applyAppConfig dari appconfig. Default = identitas DARA: aksen teal
+   tunggal di atas latar netral hampir putih (bukan lagi gradien 2 warna
+   di permukaan utama — lihat catatan "tema minimal" di bawah). */
+:root {
+  --dara-accent: #14b8a6;
+  --dara-accent-2: #0ea5e9;
+  --dara-bg: #fafaf9;
+}
+
+/* ============================================================
+   Tema minimal (v0.40.0) — "putih, bersih, satu aksen".
+   Prinsip: latar netral polos (tanpa gradien warna-warni), permukaan
+   putih datar (tanpa shadow berlebihan), SATU warna aksen dipakai
+   hemat (bukan di-blok besar). --dara-accent-2 tetap ada untuk
+   kompatibilitas preset tema lama, tapi permukaan inti (sidebar aktif,
+   tombol utama, avatar, header bar) sengaja TIDAK lagi memakai gradien
+   2 warna — cukup var(--dara-accent) solid. Ubah di sini kalau suatu
+   saat ingin gradien lagi.
+   ============================================================ */
+
+/* Font dasar */
+body {
+  font-family: var(--dara-font, system-ui), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Permukaan brand yang mengikuti aksen tema (dinamis) */
+.dara-accent-bg { background: linear-gradient(90deg, var(--dara-accent), var(--dara-accent-2)); }
+.dara-accent-text { color: var(--dara-accent); }
+
+/* ============================================================
+   Polesan tampilan global (v0.33.0) — tanpa mengubah logika.
+   ============================================================ */
+
+/* Warna seleksi teks — netral lembut (tidak ikut opacity trik, aman di semua tema) */
+::selection { background: #d9d9d6; color: #1a1a1a; }
+
+/* Cincin fokus konsisten & aksesibel (hanya saat navigasi keyboard), ikut tema */
+:focus-visible {
+  outline: 2px solid var(--dara-accent, #14b8a6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Scrollbar lebih halus & senada tema (WebKit) */
+* { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; border-radius: 999px;
+  border: 2px solid transparent; background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; background-clip: content-box; }
+
+/* Latar konten utama — polos, hampir putih. Sebelumnya ada 2 blob radial
+   teal/sky; dibuang supaya latar bersih ("serba putih") dan aksen hanya
+   muncul di elemen yang memang perlu menonjol (tombol utama, item aktif). */
+.dara-app-bg { background: var(--dara-bg, #fafaf9); }
+
+/* Kartu: transisi lembut untuk hover lift (dipakai .dara-card-hover) */
+.dara-card-hover { transition: box-shadow .18s ease, transform .18s ease; }
+.dara-card-hover:hover {
+  box-shadow: 0 10px 25px -12px rgba(15, 23, 42, .18);
+  transform: translateY(-1px);
+}
+
+/* Animasi masuk halus untuk konten halaman */
+@keyframes dara-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.dara-fade-in { animation: dara-fade-in .28s ease both; }
+@media (prefers-reduced-motion: reduce) {
+  .dara-fade-in { animation: none; }
+  .dara-card-hover { transition: none; }
+}
+
+/* ============================================================
+   react-grid-layout — perjelas affordance drag & resize
+   ============================================================ */
+
+/* Transisi halus saat item dipindah/di-resize */
+.react-grid-item.react-grid-placeholder {
+  background: #3b82f6 !important;
+  opacity: 0.15;
+  border-radius: 12px;
+}
+
+/* Handle resize: bikin JELAS & mudah ditarik (pojok kanan-bawah) */
+.react-grid-item > .react-resizable-handle {
+  width: 20px;
+  height: 20px;
+  right: 2px;
+  bottom: 2px;
+  z-index: 5;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+.react-grid-item:hover > .react-resizable-handle {
+  opacity: 1;
+}
+/* Gambar grip sendiri (segitiga pojok) supaya tidak bergantung aset default */
+.react-grid-item > .react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #3b82f6;
+  border-bottom: 2px solid #3b82f6;
+  border-bottom-right-radius: 3px;
+}
+
+/* Kursor pindah pada handle drag */
+.drag-handle { cursor: grab; }
+.drag-handle:active { cursor: grabbing; }
+
+/* Saat sedang di-drag, angkat item */
+.react-grid-item.react-draggable-dragging {
+  z-index: 10;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* ============================================================
+   Logo DARA — animasi (batang tumbuh + mengambang, spark berkedip)
+   ============================================================ */
+@keyframes dara-grow {
+  0%   { transform: scaleY(0); }
+  70%  { transform: scaleY(1.08); }
+  100% { transform: scaleY(1); }
+}
+@keyframes dara-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-1.5px); }
+}
+@keyframes dara-spark {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1.15); }
+}
+@keyframes dara-shine {
+  0%   { transform: translateX(-70px) skewX(-18deg); opacity: 0; }
+  35%  { opacity: 0.55; }
+  70%  { transform: translateX(70px) skewX(-18deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+.dara-bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: dara-grow 0.7s cubic-bezier(.2,.8,.2,1) both,
+             dara-float 3.2s ease-in-out infinite;
+}
+.dara-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dara-spark 1.8s ease-in-out infinite;
+}
+.dara-shine { animation: dara-shine 3.5s ease-in-out infinite; }
+/* Hormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  .dara-bar, .dara-spark, .dara-shine { animation: none; }
+}
+
+/* ============================================================
+   Cetak / PDF — hanya area dashboard yang tercetak
+   ============================================================ */
+@media print {
+  aside, .no-print { display: none !important; }
+  /* area yang ditandai untuk dicetak memenuhi halaman */
+  .print-area { position: absolute; inset: 0; margin: 0; padding: 12px; }
+  body { background: #fff !important; }
+  @page { margin: 12mm; }
+}
+

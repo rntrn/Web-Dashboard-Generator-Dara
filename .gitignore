@@ -1,0 +1,83 @@
+# =====================================================================
+# DARA FREE — berkas yang TIDAK boleh masuk repositori
+# =====================================================================
+
+# --- Rahasia & konfigurasi lokal --------------------------------------
+# .env berisi password database dan JWT_SECRET. Jangan pernah di-commit.
+.env
+.env.*
+!.env.example
+*.bak
+
+# --- Dependensi -------------------------------------------------------
+node_modules/
+.pnpm-store/
+
+# --- Hasil build ------------------------------------------------------
+client/dist/
+client/.vite/
+*.tsbuildinfo
+
+# --- Data & backup lokal ----------------------------------------------
+server/data/
+server/backups/
+server/*.db
+server/*.db-journal
+*.sqlite
+*.sqlite3
+
+# --- Log --------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-error.log*
+logs/
+
+# --- Sistem operasi ---------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor -----------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Sementara --------------------------------------------------------
+tmp/
+temp/
+.cache/
+
+# --- Backup lokal -----------------------------------------------------
+# backup.bat/backup.sh menulis ke folder di LUAR proyek, tapi baris ini
+# jadi pengaman kalau seseorang menyetel --out ke dalam folder proyek.
+_backup-dara-free/
+
+# --- Skrip maintainer (lokal saja, sengaja TIDAK ikut repositori) -----
+# push.bat/.sh dan backup.bat/.sh dipakai untuk kerja sehari-hari di
+# folder sumber (Mandor package/dara-free), bukan bagian dari produk yang
+# dipasang orang lain lewat `git clone`. Kalau file ini masih pernah
+# ter-commit sebelumnya, jalankan `git rm --cached <nama>` sekali agar
+# git berhenti melacaknya (isi filenya tetap ada di disk).
+/push.bat
+/push.sh
+/backup.bat
+/backup.sh
+/scripts/backup-local.mjs
+/MAINTAINER-TOOLS.md
+
+# publish.bat/.sh + scripts/build-public-release.mjs: alat "rilis" ke repo
+# publik (strip docs/versioning). Hanya relevan bagi maintainer, bukan
+# bagian produk. Lihat MAINTAINER-TOOLS.md.
+/publish.bat
+/publish.sh
+/scripts/build-public-release.mjs
+
+# Folder kerja sementara skrip publish (dihapus/ditulis ulang tiap jalan).
+/.public-release/
+
+# sync-all.bat/.sh: pembungkus yang menjalankan backup -> push -> publish
+# berurutan dalam satu perintah. Sama seperti skrip maintainer lain di atas,
+# hanya relevan lokal, tidak ikut repositori. Lihat MAINTAINER-TOOLS.md.
+/sync-all.bat
+/sync-all.sh

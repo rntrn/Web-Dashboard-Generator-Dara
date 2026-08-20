@@ -1,0 +1,48 @@
+{
+  "name": "dara-free-server",
+  "version": "1.0.0",
+  "description": "Backend DARA Free — Web Dashboard Generator (MySQL)",
+  "type": "module",
+  "main": "src/server.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*",
+      "*.db"
+    ]
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:seed": "node scripts/migrate.mjs --with-sample",
+    "db:reset": "node scripts/migrate.mjs --reset --with-sample",
+    "db:status": "node scripts/migrate.mjs --status",
+    "create-admin": "node scripts/create-admin.mjs",
+    "backup": "node scripts/backup.mjs",
+    "driver:install": "node scripts/install-driver.mjs",
+    "lint": "eslint src scripts"
+  },
+  "dependencies": {
+    "@clickhouse/client": "^1.23.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mssql": "^12.7.0",
+    "mysql2": "^3.11.0",
+    "oracledb": "^7.0.1",
+    "pg": "^8.23.0",
+    "pino": "^9.3.2",
+    "sql.js": "^1.10.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.4",
+    "pino-pretty": "^11.2.2"
+  }
+}
